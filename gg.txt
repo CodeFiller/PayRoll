@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <tittle></title>
+<link rel="stylesheet" href="function.css">
+<style>
+.button {
+  background-color: #4CAF50;
+  border-radius: 12px;
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+table {
+border-collapse: collapse;
+width: 100%;
+color: #4CAF50;
+font-family: monospace;
+font-size: 25px;
+text-align: left;
+}
+th {
+background-color: #4CAF50;
+color: white;
+}
+tr:nth-child(even) {background-color: #f2f2f2}
+</style>
+</head>
+<body>
+<section class="nav-items" id="nav">
+    <h1>WELCOME ADMIN</h1>
+    <h3>Salary Management System</h3>
+    <div class="items-container">
+      <a class="navs" href="#sec-dept">Department List</a>
+      <a class="navs" href="#sec-emp">Employee List</a>
+      <a class="navs" href="#sec-grade">Grade List</a>
+      <a class="navs" href="#sec-salary"> Salary  Details</a>
+      <a class="navs" href="#sec-reciept">Generate Report</a>
+      <span class="bottom-slider"></span>
+    </div>
+  </section>
+  <main class="content">
+    <section class="bottom-slide" id="sec-dept">
+      <table>
+    <tr>
+    <th>Department Number</th>
+    <th>Department Name</th>
+    <th>Action</th>
+    </tr>
+      <?php
+ $conn = mysqli_connect('127.0.0.1:3308', 'root', '', 'payroll');
+ // Check connection
+ if ($conn->connect_error) {
+ die("Connection failed: " . $conn->connect_error);
+ }
+ $sql = "SELECT dno,dname FROM dept_details";
+ $result = $conn->query($sql);
+ if ($result->num_rows > 0) {
+ // output data of each row
+ while($row = $result->fetch_assoc()) {
+ echo "<tr><td>" . $row["dno"]. "</td><td>" . $row["dname"] . "</td><td><a href=\"del_dept.php?dno=$row[dno]\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a> </td></tr>";
+ }
+ echo "</table>";
+ } else { echo "0 results"; }
+ $conn->close();
+ ?>
+ </table>
+ <ul style="list-style-type:none;"  >
+   <li>
+   <a href="#nav"><button class="button" href="nav">Go Back</button></a>
+   <a href="department.php"><button class="button">add Department</button></a>
+  </li>
+ </ul>
+    </section>
+        <section class="bottom-slide" id="sec-emp">
+    <table>
+  <tr>
+  <th>Employee Name</th>
+  <th>Department Name</th>
+  <th>Date Of Joining</th>
+  <th>Phone Number</th>
+  <th>E-mail ID</th>
+  <th>Action</th>
+  </tr>
+    <?php
+$conn = mysqli_connect('127.0.0.1:3308', 'root', '', 'payroll');
+// Check connection
+if ($conn->connect_error) {
+die("Connection failed: " . $conn->connect_error);
+}
+$sql = "SELECT eid, fname,dno,doj,number,email FROM emp_details";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+// output data of each row
+while($row = $result->fetch_assoc()) {
+echo "<tr><td>" . $row["fname"]. "</td><td>" . $row["dno"] . "</td><td>" . $row["doj"]. "</td><td>" . $row["number"] . "</td><td>" . $row["email"] . "</td><td><a href=\"del_emp.php?eid=$row[eid]\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a> </td></tr>";
+}
+echo "</table>";
+} else { echo "0 results"; }
+$conn->close();
+?>
+</table>
+  <ul style="list-style-type:none";>
+    <li>
+    <a href="#nav"><button class="button" href="nav">Go Back</button></a>
+    <a href="employee.php"><button class="button">add Employee</button></a>
+   </li>
+  </ul>
+    </section>
+    <section class="bottom-slide" id="sec-grade">
+      <table>
+    <tr>
+    <th>Grade Name</th>
+    <th>Department Name</th>
+    <th>Basic</th>
+    <th>Provident Fund</th>
+    <th>Provissional Tax</th>
+    <th>Action</th>
+    </tr>
+      <?php
+  $conn = mysqli_connect('127.0.0.1:3308', 'root', '', 'payroll');
+  // Check connection
+  if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "SELECT gid,gname,dno,basic,pf,ptax FROM grade_details";
+  $result = $conn->query($sql);
+  if ($result->num_rows > 0) {
+  // output data of each row
+  while($row = $result->fetch_assoc()) {
+  echo "<tr><td>" . $row["gname"]. "</td><td>" . $row["dno"] . "</td><td>" . $row["basic"]. "</td><td>" . $row["pf"] . "</td><td>" . $row["ptax"] . "</td><td><a href=\"del_grade.php?gid=$row[gid]\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a> </td></tr>";
+  }
+  echo "</table>";
+  } else { echo "0 results"; }
+  $conn->close();
+  ?>
+  </table>
+  <ul style="list-style-type:none";>
+    <li>
+    <a href="#nav"><button class="button" href="nav">Go Back</button></a>
+    <a href="grade.php"><button class="button">add grade</button></a>
+   </li>
+  </ul>
+    </section>
+    <section class="bottom-slide" id="sec-salary">
+      <table>
+    <tr>
+    <th>Transaction ID</th>
+    <th>Employee ID</th>
+    <th>Grade ID</th>
+    <th>Action</th>
+    </tr>
+      <?php
+ $conn = mysqli_connect('127.0.0.1:3308', 'root', '', 'payroll');
+ // Check connection
+ if ($conn->connect_error) {
+ die("Connection failed: " . $conn->connect_error);
+ }
+ $sql = "SELECT tid,eid,gid FROM salary_details";
+ $result = $conn->query($sql);
+ if ($result->num_rows > 0) {
+ // output data of each row
+ while($row = $result->fetch_assoc()) {
+ echo "<tr><td>" . $row["tid"]. "</td><td>" . $row["eid"] . "</td><td>" . $row["gid"] . "</td><td><a href=\"del_salary.php?tid=$row[tid]\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a> </td></tr>";
+ }
+ echo "</table>";
+ } else { echo "0 results"; }
+ $conn->close();
+ ?>
+ </table>
+ <ul style="list-style-type:none";>
+   <li>
+   <a href="#nav"><button class="button" href="nav">Go Back</button></a>
+   <a href="salary.php"><button class="button">add Payroll</button></a>
+  </li>
+ </ul>
+    </section>
+    <section class="bottom-slide" id="sec-reciept">
+      <table>
+    <tr>
+    <th>Employee Name</th>
+    <th>Department Name</th>
+    <th>Grade ID</th>
+    <th>salary/month</th>
+    <th>Action</th>
+    </tr>
+      <?php
+  $conn = mysqli_connect('127.0.0.1:3308', 'root', '', 'payroll');
+  // Check connection
+  if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+  }
+$sql ="SELECT  fname,dname,d.gid,((basic+dear+travel+hra+medical+bonus)-(pf+ptax)) as gross FROM emp_details e,dept_details d,grade_details g where e.dno=d.dno and d.gid=g.gid";
+
+  $result = $conn->query($sql);
+  if ($result->num_rows > 0) {
+  // output data of each row
+  while($row = $result->fetch_assoc()) {
+  echo "<tr><td>" . $row["fname"]. "</td><td>" . $row["dname"] . "</td><td>" . $row["gid"]. "</td><td>" . $row["gross"] . "</td><td><a href=\"#sec-reciept\" )\">GENERATE REPORT</a> </td></tr>";
+  }
+  echo "</table>";
+  } else { echo "0 results"; }
+  $conn->close();
+  ?>
+  </table>
+  <ul style="list-style-type:none";>
+    <li>
+    <a href="#nav"><button class="button" href="nav">Go Back</button></a>
+   </li>
+  </ul>
+    </section>
+
+  </main>
+  <script src="js/.js"></script>
+<script  src="function.js"></script>
+
+</body>
+</html>
